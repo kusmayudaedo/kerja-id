@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	height: 100%;
+	background-color: #f8fafc;
+}
+
+:root {
+	/* colors */
+	--primary-color: #209cee;
+}
+
+.active {
+	color: var(--primary-color);
+	font-weight: 500;
+}
+
+.active-button {
+	background-color: var(--primary-color);
+	color: white;
+}
+
+.job-status-pending {
+	background: #fef3c7;
+	color: #f59e0b;
+}
+
+.job-status-interview {
+	background: #e0e8f9;
+	color: #647acb;
+}
+.job-status-decline {
+	background: #ffeeee;
+	color: #d66a6a;
+}
+
+.text-color-pending {
+	color: #f59e0b;
+}
+
+.bg-color-pending {
+	background: #fef3c7;
+}
+
+.border-color-pending {
+	background: #f59e0b;
+}
+
+.text-color-interview {
+	color: #647acb;
+}
+
+.bg-color-interview {
+	background: #e0e8f9;
+}
+
+.border-color-interview {
+	background: #647acb;
+}
+
+.text-color-decline {
+	color: #d66a6a;
+}
+
+.bg-color-decline {
+	background: #ffeeee;
+}
+
+.border-color-decline {
+	background: #d66a6a;
+}
