@@ -11,3 +11,4 @@ export { default as JobSearchContainer } from './JobSearchContainer';
 export { default as StatItem } from './StatItem';
 export { default as StatsContainer } from './StatsContainer';
 export { default as ChartContainer } from './ChartContainer';
+export { default as Loading } from './Loading';

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { BigSidebar, NavBar, SmallSidebar } from '../components';
+import { BigSidebar, NavBar, SmallSidebar, Loading } from '../components';
 import {
 	Outlet,
 	useLoaderData,
@@ -73,7 +73,7 @@ const DashboardLayout = () => {
 							<NavBar />
 						</div>
 						<div className='overflow-y-auto h-[calc(100vh-120px)]'>
-							{isPageLoading ? <h1>Loading</h1> : <Outlet context={{ user }} />}
+							{isPageLoading ? <Loading /> : <Outlet context={{ user }} />}
 						</div>
 					</div>
 				</div>
