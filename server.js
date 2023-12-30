@@ -35,7 +35,7 @@ cloudinary.config({
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-app.use(express.static(path.resolve(__dirname, './public')));
+app.use(express.static(path.resolve(__dirname, './client/dist')));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -49,7 +49,7 @@ app.use('/api/v1/users', authenticateUser, userRoute);
 app.use('/api/v1/auth', authRouter);
 
 app.use('*', (req, res) => {
-	res.sendFile(path.resolve(__dirname, './public', 'index.html'));
+	res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
 });
 
 app.use('*', (req, res) => {
