@@ -1,31 +1,23 @@
 import { createContext, useContext, useState } from 'react';
-import { BigSidebar, NavBar, SmallSidebar, Loading } from '../components';
 import {
-	Outlet,
-	useLoaderData,
-	redirect,
-	useNavigate,
-	useNavigation,
-} from 'react-router-dom';
+	BigSidebar,
+	NavBar,
+	SmallSidebar,
+	Loading,
+	ErrorComponent,
+} from '../components';
+import { Outlet, useNavigate } from 'react-router-dom';
 import api from '../utils/apiInstance';
 import { toast } from 'react-toastify';
-
-export const loader = async () => {
-	try {
-		const { data } = await api.get('/users/current-user');
-		return data;
-	} catch (error) {
-		return redirect('/');
-	}
-};
+import useUser from '../hooks/useUser';
+import { useQueryClient } from '@tanstack/react-query';
 
 const DashboardContext = createContext();
 
 const DashboardLayout = () => {
-	const { user } = useLoaderData();
+	const { data: user, isError, isLoading } = useUser();
+	const queryClient = useQueryClient();
 	const navigate = useNavigate();
-	const navigation = useNavigation();
-	const isPageLoading = navigation.state === 'loading';
 	const [showSidebar, setShowSidebar] = useState(false);
 	const [isDarkTheme, setIsDarkTheme] = useState(false);
 
@@ -40,8 +32,12 @@ const DashboardLayout = () => {
 	const logoutUser = async () => {
 		navigate('/');
 		await api.get('/auth/logout');
+		queryClient.invalidateQueries();
 		toast.success('Logged out');
 	};
+
+	if (isLoading) return <Loading />;
+	if (isError) return <ErrorComponent />;
 
 	return (
 		<DashboardContext.Provider
@@ -73,7 +69,7 @@ const DashboardLayout = () => {
 							<NavBar />
 						</div>
 						<div className='overflow-y-auto h-[calc(100vh-120px)]'>
-							{isPageLoading ? <Loading /> : <Outlet context={{ user }} />}
+							{isLoading ? <Loading /> : <Outlet context={{ user }} />}
 						</div>
 					</div>
 				</div>

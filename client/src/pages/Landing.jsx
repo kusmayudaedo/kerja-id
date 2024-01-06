@@ -15,10 +15,9 @@ const Landing = () => {
 							Job <span className='text-[--primary-color]'>Tracking</span> App
 						</h1>
 						<p className='text-base opacity-80 my-8 max-w-xl'>
-							Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-							Officiis, sit! Laudantium quasi similique quaerat fuga facilis
-							commodi cumque corporis facere sit? Velit iste non et excepturi
-							consectetur, modi corporis ea?
+							Kerja.Id is your personal job application concierge, streamlining
+							your search and helping you land your dream job. Imagine
+							organization, insights, and confidence, all in one app.
 						</p>
 						<div className='flex flex-wrap gap-1'>
 							<Link to='/register'>

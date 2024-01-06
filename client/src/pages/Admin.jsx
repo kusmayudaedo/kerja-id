@@ -1,21 +1,17 @@
-import api from '../utils/apiInstance';
-import { redirect, useLoaderData } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { StatItem } from '../components';
+import { useNavigate } from 'react-router-dom';
+import { Loading, StatItem } from '../components';
 import { FaUserCircle } from 'react-icons/fa';
-
-export const loader = async () => {
-	try {
-		const response = await api.get('/users/admin/app-stats');
-		return response.data;
-	} catch (error) {
-		toast.error('Unauthorize');
-		return redirect('/dashboard');
-	}
-};
+import useAdmin from '../hooks/useAdmin';
 
 const Admin = () => {
-	const { users, jobs } = useLoaderData();
+	const { data, isLoading, isError } = useAdmin();
+	const navigate = useNavigate();
+	if (isLoading) return <Loading />;
+
+	if (isError) return navigate('/dashboard');
+
+	const { users, jobs } = data;
+
 	return (
 		<div className='flex justify-center w-full mt-5'>
 			<div className='w-[90%]'>

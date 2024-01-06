@@ -1,27 +1,22 @@
-import { useLoaderData } from 'react-router-dom';
-import { JobsContainer, JobSearchContainer } from '../components';
-import api from '../utils/apiInstance';
-import { toast } from 'react-toastify';
+import { useSearchParams } from 'react-router-dom';
+import {
+	ErrorComponent,
+	JobsContainer,
+	JobSearchContainer,
+	Loading,
+} from '../components';
 import { createContext, useContext } from 'react';
-
-export const loader = async ({ request }) => {
-	const params = Object.fromEntries([
-		...new URL(request.url).searchParams.entries(),
-	]);
-
-	try {
-		const { data } = await api.get('/jobs', { params });
-		return { data, searchValues: { ...params } };
-	} catch (error) {
-		toast.error(error?.response?.data?.message);
-		return error;
-	}
-};
+import useAllJobs from '../hooks/useAllJobs';
 
 const AllJobsContext = createContext();
 
 const AllJobs = () => {
-	const { data, searchValues } = useLoaderData();
+	const [searchParams] = useSearchParams();
+	const searchValues = Object.fromEntries([...searchParams]);
+	const { data, isLoading, isError } = useAllJobs(searchValues);
+
+	if (isLoading) return <Loading />;
+	if (isError) return <ErrorComponent />;
 
 	return (
 		<AllJobsContext.Provider value={{ data, searchValues }}>

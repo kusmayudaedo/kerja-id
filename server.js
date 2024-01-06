@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import cloudinary from 'cloudinary';
+import helmet from 'helmet';
+import mongSanitize from 'express-mongo-sanitize';
 
 // routers
 import jobRouter from './routes/jobRouter.js';
@@ -37,11 +39,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(express.static(path.resolve(__dirname, './client/dist')));
 app.use(express.json());
+app.use(helmet());
+app.use(mongSanitize());
 app.use(cookieParser());
-
-app.get('/api/v1/test', (req, res) => {
-	res.json({ msg: 'test route' });
-});
 
 //Use router
 app.use('/api/v1/jobs', authenticateUser, jobRouter);
@@ -49,11 +49,11 @@ app.use('/api/v1/users', authenticateUser, userRoute);
 app.use('/api/v1/auth', authRouter);
 
 app.use('*', (req, res) => {
-	res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
+	res.status(404).json({ message: 'not found' });
 });
 
 app.use('*', (req, res) => {
-	res.status(404).json({ message: 'not found' });
+	res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
 });
 
 app.use(errorHandlerMiddlewares);

@@ -1,36 +1,38 @@
-import { Form, redirect, useLoaderData, useNavigation } from 'react-router-dom';
+import { Form, redirect, useNavigation, useParams } from 'react-router-dom';
 import api from '../utils/apiInstance';
 import { toast } from 'react-toastify';
 import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
-import { FormRow, FormRowSelection } from '../components';
+import {
+	ErrorComponent,
+	FormRow,
+	FormRowSelection,
+	Loading,
+} from '../components';
+import useEditJob from '../hooks/useEditJob';
 
-export const loader = async ({ params }) => {
-	try {
-		const { data } = await api.get(`jobs/${params.id}`);
-		return data;
-	} catch (error) {
-		toast.error(error?.response?.data?.message);
-		return redirect('/dashboard/all-jobs');
-	}
-};
-
-export const action = async ({ request, params }) => {
-	const formData = await request.formData();
-	const data = Object.fromEntries(formData);
-	try {
-		await api.patch(`/jobs/${params.id}`, data);
-		toast.success('Job edited successfully');
-		return redirect('/dashboard/all-jobs');
-	} catch (error) {
-		toast.error(error?.response?.data?.message);
-		return error;
-	}
-};
+export const action =
+	(queryClient) =>
+	async ({ request, params }) => {
+		const formData = await request.formData();
+		const data = Object.fromEntries(formData);
+		try {
+			await api.patch(`/jobs/${params.id}`, data);
+			queryClient.invalidateQueries(['jobs']);
+			toast.success('Job edited successfully');
+			return redirect('/dashboard/all-jobs');
+		} catch (error) {
+			toast.error(error?.response?.data?.message);
+			return error;
+		}
+	};
 
 const EditJob = () => {
-	const { job } = useLoaderData();
 	const navigation = useNavigation();
 	const isSubmitting = navigation.state === 'submitting';
+	const { id } = useParams();
+	const { data: job, isError, isLoading } = useEditJob(id);
+	if (isLoading) return <Loading />;
+	if (isError) return <ErrorComponent />;
 	return (
 		<div className='flex flex-col items-center mt-5'>
 			<div className='m-3 bg-white rounded w-[90%] shadow-lg'>
@@ -43,7 +45,7 @@ const EditJob = () => {
 									text='position'
 									name='position'
 									labelText='Position'
-									defaultValue={job.position}
+									defaultValue={job?.position}
 								/>
 							</div>
 							<div className='flex-1'>
@@ -51,7 +53,7 @@ const EditJob = () => {
 									text='company'
 									name='company'
 									labelText='Company'
-									defaultValue={job.company}
+									defaultValue={job?.company}
 								/>
 							</div>
 							<div className='flex-1'>
@@ -59,7 +61,7 @@ const EditJob = () => {
 									text='jobLocation'
 									name='jobLocation'
 									labelText='Job Location'
-									defaultValue={job.jobLocation}
+									defaultValue={job?.jobLocation}
 								/>
 							</div>
 							<div className='flex-1'>
@@ -67,7 +69,7 @@ const EditJob = () => {
 									name='jobStatus'
 									labelText='Job Status'
 									list={JOB_STATUS}
-									defaultValue={job.jobStatus}
+									defaultValue={job?.jobStatus}
 								/>
 							</div>
 							<div className='flex-1'>
@@ -75,7 +77,7 @@ const EditJob = () => {
 									name='jobType'
 									labelText='Job Type'
 									list={JOB_TYPE}
-									defaultValue={job.jobType}
+									defaultValue={job?.jobType}
 								/>
 							</div>
 							<div className='flex-1 mt-7'>

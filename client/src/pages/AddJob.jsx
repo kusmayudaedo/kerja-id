@@ -9,18 +9,21 @@ import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants.js';
 import api from '../utils/apiInstance.js';
 import { toast } from 'react-toastify';
 
-export const action = async ({ request }) => {
-	const formData = await request.formData();
-	const data = Object.fromEntries(formData);
-	try {
-		await api.post('/jobs', data);
-		toast.success('Job added successfully');
-		return redirect('/dashboard/all-jobs');
-	} catch (error) {
-		toast.error(error?.response?.data?.message);
-		return error;
-	}
-};
+export const action =
+	(queryClient) =>
+	async ({ request }) => {
+		const formData = await request.formData();
+		const data = Object.fromEntries(formData);
+		try {
+			await api.post('/jobs', data);
+			queryClient.invalidateQueries(['jobs']);
+			toast.success('Job added successfully');
+			return redirect('/dashboard/all-jobs');
+		} catch (error) {
+			toast.error(error?.response?.data?.message);
+			return error;
+		}
+	};
 
 const AddJob = () => {
 	const { user } = useOutletContext();

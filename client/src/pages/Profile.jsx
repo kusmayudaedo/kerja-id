@@ -4,21 +4,24 @@ import { useDashboardContext } from './DashboardLayout';
 import api from '../utils/apiInstance';
 import { toast } from 'react-toastify';
 
-export const action = async ({ request }) => {
-	const formData = await request.formData();
-	const file = formData.get('avatar');
-	if (file && file.size > 500000) {
-		toast.error('Image size too large');
+export const action =
+	(queryClient) =>
+	async ({ request }) => {
+		const formData = await request.formData();
+		const file = formData.get('avatar');
+		if (file && file.size > 500000) {
+			toast.error('Image size too large');
+			return null;
+		}
+		try {
+			await api.patch('/users/update-user', formData);
+			queryClient.invalidateQueries(['user']);
+			toast.success('Profile updated successfully');
+		} catch (error) {
+			toast.error(error?.response?.data?.message);
+		}
 		return null;
-	}
-	try {
-		await api.patch('/users/update-user', formData);
-		toast.success('Profile updated successfully');
-	} catch (error) {
-		toast.error(error?.response?.data?.message);
-	}
-	return null;
-};
+	};
 
 const Profile = () => {
 	const { user } = useDashboardContext();

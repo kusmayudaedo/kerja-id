@@ -9,19 +9,22 @@ import { FormRow, Logo } from '../components';
 import api from '../utils/apiInstance';
 import { toast } from 'react-toastify';
 
-export const action = async ({ request }) => {
-	const formData = await request.formData();
-	const data = Object.fromEntries(formData);
+export const action =
+	(queryClient) =>
+	async ({ request }) => {
+		const formData = await request.formData();
+		const data = Object.fromEntries(formData);
 
-	try {
-		await api.post('/auth/login', data);
-		toast.success('Logged in');
-		return redirect('/dashboard');
-	} catch (error) {
-		toast.error(error?.response?.data?.message);
-		return error;
-	}
-};
+		try {
+			await api.post('/auth/login', data);
+			queryClient.invalidateQueries();
+			toast.success('Logged in');
+			return redirect('/dashboard');
+		} catch (error) {
+			toast.error(error?.response?.data?.message);
+			return error;
+		}
+	};
 
 const Login = () => {
 	const navigation = useNavigation();

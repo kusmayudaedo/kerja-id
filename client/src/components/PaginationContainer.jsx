@@ -39,7 +39,10 @@ const PaginationContainer = () => {
 		// Dots before
 		if (currentPage > 3) {
 			pageButtons.push(
-				<span className='bg-white text-[--primary-color] rounded px-[14px] py-1'>
+				<span
+					className='bg-white text-[--primary-color] rounded px-[14px] py-1'
+					key={`dots-before-${currentPage}`}
+				>
 					...
 				</span>
 			);
@@ -65,10 +68,13 @@ const PaginationContainer = () => {
 			);
 		}
 
-		// Dots before
+		// Dots after
 		if (currentPage < numberOfPages - 2) {
 			pageButtons.push(
-				<span className='bg-white text-[--primary-color] rounded px-[14px] py-1'>
+				<span
+					className='bg-white text-[--primary-color] rounded px-[14px] py-1'
+					key={`dots-after-${currentPage}`}
+				>
 					...
 				</span>
 			);
