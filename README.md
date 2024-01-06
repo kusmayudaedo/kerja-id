@@ -43,4 +43,14 @@ This app was build using MERN stack
 
 #
 
-### How to Use
+### Quickstart
+
+1. Clone the project
+2. Add respective ```.env``` file, you can refer to ```.env.example``` file provide in this repo
+3. Install dependencies using ```npm install```
+4. Run ```npm run dev```
+
+#
+
+### Made with ❤️ Keep learning, growing, and coding ✨
+
