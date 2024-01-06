@@ -21,7 +21,7 @@ const Register = () => {
 	const navigation = useNavigation();
 	const isSubmitting = navigation.state === 'submitting';
 	return (
-		<div className='flex flex-col h-full lg:h-screen py-10 items-center justify-center'>
+		<div className='flex flex-col h-[calc(100vh-50px)] py-10 items-center justify-center'>
 			<div className='w-[300px] md:w-[600px] lg:min-w-[800px] h-auto bg-white rounded-lg shadow-lg'>
 				<div className='w-full bg-[--primary-color] h-1 rounded-t-lg'></div>
 				<div className='flex flex-col items-center mt-4 mb-2 '>

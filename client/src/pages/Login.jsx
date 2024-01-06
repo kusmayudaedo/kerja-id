@@ -47,7 +47,7 @@ const Login = () => {
 	};
 
 	return (
-		<div className='flex flex-col h-screen items-center justify-center'>
+		<div className='flex flex-col h-[calc(100vh-30px)] items-center justify-center'>
 			<div className='w-[300px] md:w-[350px] lg:w-[400px] h-auto bg-white rounded-lg shadow-lg'>
 				<div className='w-full bg-[--primary-color] h-1 rounded-t-lg'></div>
 				<div className='flex flex-col items-center mt-4 mb-2'>

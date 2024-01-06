@@ -4,7 +4,7 @@ import { Logo } from '../components';
 
 const Landing = () => {
 	return (
-		<div className='flex justify-center min-h-screen'>
+		<div className='flex justify-center h-[calc(100vh-30px)]'>
 			<div className='flex flex-col w-[75%]'>
 				<div>
 					<Logo />

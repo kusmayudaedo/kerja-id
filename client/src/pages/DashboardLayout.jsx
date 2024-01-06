@@ -50,7 +50,7 @@ const DashboardLayout = () => {
 				logoutUser,
 			}}
 		>
-			<div className='flex flex-col h-screen'>
+			<div className='flex flex-col'>
 				<div className='flex flex-1 overflow-hidden'>
 					{showSidebar && (
 						<div className='w-screen lg:flex  lg:w-60'>
