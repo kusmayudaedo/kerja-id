@@ -76,7 +76,10 @@ const JobSearchContainer = () => {
 							</div>
 
 							<div className='flex-1 mt-7'>
-								<Link to='/dashboard/all-jobs'>
+								<Link
+									to='/dashboard/all-jobs'
+									onClick={(e) => e.currentTarget.form.reset()}
+								>
 									<button
 										type='button'
 										className='bg-[--primary-color] text-white px-4 py-[7px] rounded w-full'
