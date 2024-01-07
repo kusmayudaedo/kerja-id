@@ -1,12 +1,15 @@
-import { Form, useSubmit, Link } from 'react-router-dom';
+import { Form, useSubmit, Link, useNavigate } from 'react-router-dom';
 import { FormRow, FormRowSelection } from '../components';
 import { JOB_STATUS, JOB_TYPE, JOB_SORT_BY } from '../../../utils/constants.js';
 import { useAllJobsContext } from '../pages/AllJobs.jsx';
+import { useQueryClient } from '@tanstack/react-query';
 
 const JobSearchContainer = () => {
 	const { searchValues } = useAllJobsContext();
-	const { search, jobStatus, jobType, sort } = searchValues;
+	let { search, jobStatus, jobType, sort } = searchValues;
 	const submit = useSubmit();
+	const queryClient = useQueryClient();
+	const navigate = useNavigate();
 
 	const debounce = (onChange) => {
 		let timeout;
@@ -73,7 +76,10 @@ const JobSearchContainer = () => {
 							</div>
 
 							<div className='flex-1 mt-7'>
-								<Link to='/dashboard/all-jobs'>
+								<Link
+									to='/dashboard/all-jobs'
+									onClick={(e) => e.currentTarget.form.reset()}
+								>
 									<button
 										type='button'
 										className='bg-[--primary-color] text-white px-4 py-[7px] rounded w-full'
