@@ -1,4 +1,4 @@
-import { Form, useSubmit, Link, useNavigate } from 'react-router-dom';
+import { Form, useSubmit, useNavigate } from 'react-router-dom';
 import { FormRow, FormRowSelection } from '../components';
 import { JOB_STATUS, JOB_TYPE, JOB_SORT_BY } from '../../../utils/constants.js';
 import { useAllJobsContext } from '../pages/AllJobs.jsx';
@@ -6,10 +6,10 @@ import { useQueryClient } from '@tanstack/react-query';
 
 const JobSearchContainer = () => {
 	const { searchValues } = useAllJobsContext();
-	let { search, jobStatus, jobType, sort } = searchValues;
+	const { search, jobStatus, jobType, sort } = searchValues;
 	const submit = useSubmit();
-	const queryClient = useQueryClient();
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const debounce = (onChange) => {
 		let timeout;
@@ -20,6 +20,11 @@ const JobSearchContainer = () => {
 				onChange(form);
 			}, 1000);
 		};
+	};
+
+	const handleResetValue = () => {
+		navigate('/dashboard/all-jobs');
+		queryClient.invalidateQueries(['jobs']);
 	};
 
 	return (
@@ -76,17 +81,13 @@ const JobSearchContainer = () => {
 							</div>
 
 							<div className='flex-1 mt-7'>
-								<Link
-									to='/dashboard/all-jobs'
-									onClick={(e) => e.currentTarget.form.reset()}
+								<button
+									type='button'
+									className='bg-[--primary-color] text-white px-4 py-[7px] rounded w-full'
+									onClick={handleResetValue}
 								>
-									<button
-										type='button'
-										className='bg-[--primary-color] text-white px-4 py-[7px] rounded w-full'
-									>
-										Reset Search Value
-									</button>
-								</Link>
+									Reset Search Value
+								</button>
 							</div>
 						</div>
 					</div>

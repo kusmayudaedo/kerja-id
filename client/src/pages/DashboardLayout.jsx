@@ -19,11 +19,6 @@ const DashboardLayout = () => {
 	const queryClient = useQueryClient();
 	const navigate = useNavigate();
 	const [showSidebar, setShowSidebar] = useState(false);
-	const [isDarkTheme, setIsDarkTheme] = useState(false);
-
-	const toggleTheme = () => {
-		setIsDarkTheme(!isDarkTheme);
-	};
 
 	const toggleSidebar = () => {
 		setShowSidebar(!showSidebar);
@@ -44,8 +39,6 @@ const DashboardLayout = () => {
 			value={{
 				user,
 				showSidebar,
-				isDarkTheme,
-				toggleTheme,
 				toggleSidebar,
 				logoutUser,
 			}}
@@ -69,7 +62,7 @@ const DashboardLayout = () => {
 							<NavBar />
 						</div>
 						<div className='overflow-y-auto h-[calc(100vh-120px)]'>
-							{isLoading ? <Loading /> : <Outlet context={{ user }} />}
+							<Outlet context={{ user }} />
 						</div>
 					</div>
 				</div>
