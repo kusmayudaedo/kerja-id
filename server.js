@@ -49,11 +49,11 @@ app.use('/api/v1/users', authenticateUser, userRoute);
 app.use('/api/v1/auth', authRouter);
 
 app.use('*', (req, res) => {
-	res.status(404).json({ message: 'not found' });
+	res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
 });
 
 app.use('*', (req, res) => {
-	res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
+	res.status(404).json({ message: 'not found' });
 });
 
 app.use(errorHandlerMiddlewares);
