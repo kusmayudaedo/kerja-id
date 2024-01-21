@@ -27,7 +27,7 @@ const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
 	{
-		path: 'https://kerja-id.onrender.com/',
+		path: '/',
 		element: <HomeLayout />,
 		errorElement: <Error />,
 		children: [
